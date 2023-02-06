@@ -1,6 +1,6 @@
 # IoT Project
 
-
+Added a word document on possible components we could use if we were to do the dog project
 
 ## Getting started
 Install the Espressif IDF extension (Could take a while)
