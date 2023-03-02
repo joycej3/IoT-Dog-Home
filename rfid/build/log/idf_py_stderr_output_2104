@@ -1,0 +1,26 @@
+CMake Error at C:/Users/clare/esp/esp-idf/tools/cmake/build.cmake:519 (message):
+  ERROR: 2 problems were found in the manifest file
+  D:/John/IoT/iot-project/rfid/main\idf_component.yml:
+
+  Invalid manifest format
+
+  Component's name is not valid "/spi_master", should contain only letters,
+  numbers, /, _ and -.
+
+  
+
+  SUGGESTION: This component may be using a newer version of the component
+  manager.
+
+  You can try to update the component manager by running:
+
+      C:\Users\clare\.espressif\python_env\idf5.0_py3.8_env\Scripts\python.exe -m pip install --upgrade idf-component-manager
+
+  
+
+Call Stack (most recent call first):
+  C:/Users/clare/esp/esp-idf/tools/cmake/project.cmake:440 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+
+ninja: error: rebuilding 'build.ninja': subcommand failed

@@ -1,0 +1,12 @@
+CMake Error at C:/Users/clare/esp/esp-idf/tools/cmake/build.cmake:519 (message):
+  HINT: Please check manifest file of the following component(s):
+  esp-idf-rc522
+
+  ERROR: Because project depends on idf (^4.1) which doesn't match any
+  versions, version solving failed.
+
+Call Stack (most recent call first):
+  C:/Users/clare/esp/esp-idf/tools/cmake/project.cmake:440 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+

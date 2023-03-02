@@ -1,0 +1,11 @@
+[0/1] Re-running CMake...
+-- ccache will be used for faster recompilation
+-- Building ESP-IDF components for target esp32
+Solving dependencies requirements
+..Updating lock file at D:/John/IoT/iot-project/rfid\dependencies.lock
+Processing 1 dependencies:
+[1/1] idf (5.0.0)
+-- Configuring incomplete, errors occurred!
+See also "D:/John/IoT/iot-project/rfid/build/CMakeFiles/CMakeOutput.log".
+FAILED: build.ninja 
+C:\Users\clare\.espressif\tools\cmake\3.24.0\bin\cmake.exe --regenerate-during-build -SD:\John\IoT\iot-project\rfid -BD:\John\IoT\iot-project\rfid\build

@@ -1,0 +1,38 @@
+CMake Error at C:/Users/clare/esp/esp-idf/tools/cmake/component.cmake:224 (message):
+  CMake Warning (dev) at build_properties.temp.cmake:8:
+
+    Syntax Warning in cmake code at column 51
+
+  
+
+    Argument not separated from preceding token by whitespace.
+
+  Call Stack (most recent call first):
+
+    C:/Users/clare/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:3 (include)
+
+  This warning is for project developers.  Use -Wno-dev to suppress it.
+
+  
+
+  CMake Error at
+  D:/John/IoT/iot-project/rfid/components/esp-idf-rc522/CMakeLists.txt:1:
+
+    Parse error.  Function missing ending ")".  End of file reached.
+
+  Call Stack (most recent call first):
+
+    C:/Users/clare/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:106 (include)
+    C:/Users/clare/esp/esp-idf/tools/cmake/scripts/component_get_requirements.cmake:124 (__component_get_requirements)
+
+  
+
+  
+
+Call Stack (most recent call first):
+  C:/Users/clare/esp/esp-idf/tools/cmake/build.cmake:553 (__component_get_requirements)
+  C:/Users/clare/esp/esp-idf/tools/cmake/project.cmake:440 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+
+ninja: error: rebuilding 'build.ninja': subcommand failed
