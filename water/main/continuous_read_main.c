@@ -10,7 +10,10 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/queue.h"
 #include "freertos/semphr.h"
+#include "driver/ledc.h"
+#include "sdkconfig.h"
 #include "esp_adc/adc_continuous.h"
 
 #define EXAMPLE_READ_LEN   256
@@ -20,7 +23,7 @@
 #define ADC_CONV_MODE       ADC_CONV_SINGLE_UNIT_1  //ESP32 only supports ADC1 DMA mode
 #define ADC_OUTPUT_TYPE     ADC_DIGI_OUTPUT_FORMAT_TYPE1
 // water, food || pin 35 pin 34
-static adc_channel_t channel[2] = {ADC_CHANNEL_7, ADC_CHANNEL_6}; 
+static adc_channel_t channel[1] = {ADC_CHANNEL_7};//, ADC_CHANNEL_6}; 
 
 static TaskHandle_t s_task_handle;
 static const char *TAG = "EXAMPLE";
@@ -73,6 +76,71 @@ static void continuous_adc_init(adc_channel_t *channel, uint8_t channel_num, adc
     *out_handle = handle;
 }
 
+//..........................................................................................
+// static void _set_angle(ledc_mode_t speed_mode, float angle)
+// {
+//     for (size_t i = 0; i < 8; i++) {
+//         iot_servo_write_angle(speed_mode, i, angle);
+//     }
+// }
+
+
+
+static char tag[] = "servo1";
+
+void sweepServo_task(void *ignore) {
+	int bitSize         = 15;
+	int minValue        = 500;  // micro seconds (uS)
+	int maxValue        = 2500; // micro seconds (uS)
+	int sweepDuration   = 1500; // milliseconds (ms)
+	int duty            = (1<<bitSize) * minValue / 20000 ;//1638
+	int direction       = 1; // 1 = up, -1 = down
+	int valueChangeRate = 20; // msecs
+
+	ESP_LOGD(tag, ">> task_servo1");
+	ledc_timer_config_t timer_conf;
+	timer_conf.duty_resolution    = LEDC_TIMER_15_BIT;
+	timer_conf.freq_hz    = 50;
+	timer_conf.speed_mode = LEDC_HIGH_SPEED_MODE;
+	timer_conf.timer_num  = LEDC_TIMER_0;
+	ledc_timer_config(&timer_conf);
+
+	ledc_channel_config_t ledc_conf;
+	ledc_conf.channel    = LEDC_CHANNEL_0;
+	ledc_conf.duty       = duty;
+	ledc_conf.gpio_num   = 12;
+	ledc_conf.intr_type  = LEDC_INTR_DISABLE;
+	ledc_conf.speed_mode = LEDC_HIGH_SPEED_MODE;
+	ledc_conf.timer_sel  = LEDC_TIMER_0;
+	ledc_channel_config(&ledc_conf);
+
+	int changesPerSweep = sweepDuration / valueChangeRate;// 1500/20 -> 75
+	int changeDelta = (maxValue-minValue) / changesPerSweep;// 2000/75 -> 26
+	int i;
+	ESP_LOGD(tag, "sweepDuration: %d seconds", sweepDuration);
+	ESP_LOGD(tag, "changesPerSweep: %d", changesPerSweep);
+	ESP_LOGD(tag, "changeDelta: %d", changeDelta);
+	ESP_LOGD(tag, "valueChangeRate: %d", valueChangeRate);
+	// while(1) {
+    for (i=0; i<changesPerSweep; i++) {
+        if (direction > 0) {
+            duty += changeDelta;
+        } else {
+            duty -= changeDelta;
+        }
+        ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, duty);
+        ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+        vTaskDelay(valueChangeRate/portTICK_PERIOD_MS);
+    }
+    direction = -direction;
+    ESP_LOGD(tag, "Direction now %d", direction);
+	// } // End loop forever
+
+	vTaskDelete(NULL);
+}
+//..........................................................................................
+
+
 
 void app_main(void)
 {
@@ -94,14 +162,6 @@ void app_main(void)
 
     while(1) {
 
-        /**
-         * This is to show you the way to use the ADC continuous mode driver event callback.
-         * This `ulTaskNotifyTake` will block when the data processing in the task is fast.
-         * However in this example, the data processing (print) is slow, so you barely block here.
-         *
-         * Without using this event callback (to notify this task), you can still just call
-         * `adc_continuous_read()` here in a loop, with/without a certain block timeout.
-         */
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
         while (1) {
@@ -111,20 +171,15 @@ void app_main(void)
                 for (int i = 0; i < ret_num; i += SOC_ADC_DIGI_RESULT_BYTES) {
                     adc_digi_output_data_t *p = (void*)&result[i];
                     ESP_LOGI(TAG, "Unit: %d, Channel: %d, Value: %x", 1, p->type1.channel, p->type1.data);     
-
-                    // while(p->type1.data < some_value )  {
-                    //     turn on water pump
-                    // }
-                    // turn off pump
+                    if (p->type1.data > 500){
+                        xTaskCreate(&sweepServo_task,"sweepServo_task",2048,NULL,5,NULL);
+                    }
+   
                 }
-                /**
-                 * Because printing is slow, so every time you call `ulTaskNotifyTake`, it will immediately return.
-                 * To avoid a task watchdog timeout, add a delay here. When you replace the way you process the data,
-                 * usually you don't need this delay (as this task will block for a while).
-                 */
-                vTaskDelay(1);
+
+                vTaskDelay(1); //stops timeout , remove if putting taks here
             } else if (ret == ESP_ERR_TIMEOUT) {
-                //We try to read `EXAMPLE_READ_LEN` until API returns timeout, which means there's no available data
+                // no available data
                 break;
             }
         }
