@@ -1,3 +1,17 @@
+Door component
+    Send - Door open / close
+    Receieve - Lock / unlock
+
+Feeder Component
+    Send - Change in weight / water
+    Reveice - Daily feed amount
+
+
+
+Camera
+    - Send Anomally
+
+
 
 
 ## Getting started
