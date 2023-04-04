@@ -13,8 +13,124 @@
 #include "freertos/queue.h"
 #include "freertos/semphr.h"
 #include "driver/ledc.h"
+#include "driver/gpio.h"
 #include "sdkconfig.h"
 #include "esp_adc/adc_continuous.h"
+
+
+
+#include <string.h>
+#include <sys/param.h>
+
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "esp_wifi.h"
+#include "esp_event.h"
+
+#include "nvs_flash.h"
+#include "esp_netif.h"
+#include "protocol_examples_common.h"
+#include "addr_from_stdin.h"
+#include "lwip/err.h"
+#include "lwip/sockets.h"
+
+
+// #include "py/compile.h"
+// #include "py/runtime.h"
+// #include "py/gc.h"
+// #include "py/mpstate.h"
+// #include "py/mphal.h"
+// #include "client.py"##
+
+#if defined(CONFIG_EXAMPLE_IPV4)
+#define HOST_IP_ADDR CONFIG_EXAMPLE_IPV4_ADDR
+#elif defined(CONFIG_EXAMPLE_IPV6)
+#define HOST_IP_ADDR CONFIG_EXAMPLE_IPV6_ADDR
+#else
+#define HOST_IP_ADDR "172.20.10.9 8080"
+#endif
+
+#define PORT CONFIG_EXAMPLE_PORT
+
+static const char *TAG = "example";
+static const char *payload = "default payload";
+
+static void tcp_client_task(void *pvParameters)
+{
+    char rx_buffer[128];
+    char host_ip[] = HOST_IP_ADDR;
+    int addr_family = 0;
+    int ip_protocol = 0;
+
+    while (1) {
+#if defined(CONFIG_EXAMPLE_IPV4)
+        struct sockaddr_in dest_addr;
+        dest_addr.sin_addr.s_addr = inet_addr(host_ip);
+        dest_addr.sin_family = AF_INET;
+        dest_addr.sin_port = htons(PORT);
+        addr_family = AF_INET;
+        ip_protocol = IPPROTO_IP;
+#elif defined(CONFIG_EXAMPLE_IPV6)
+        struct sockaddr_in6 dest_addr = { 0 };
+        inet6_aton(host_ip, &dest_addr.sin6_addr);
+        dest_addr.sin6_family = AF_INET6;
+        dest_addr.sin6_port = htons(PORT);
+        dest_addr.sin6_scope_id = esp_netif_get_netif_impl_index(EXAMPLE_INTERFACE);
+        addr_family = AF_INET6;
+        ip_protocol = IPPROTO_IPV6;
+#elif defined(CONFIG_EXAMPLE_SOCKET_IP_INPUT_STDIN)
+        struct sockaddr_storage dest_addr = { 0 };
+        ESP_ERROR_CHECK(get_addr_from_stdin(PORT, SOCK_STREAM, &ip_protocol, &addr_family, &dest_addr));
+#endif
+        int sock =  socket(addr_family, SOCK_STREAM, ip_protocol);
+        if (sock < 0) {
+            ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
+            break;
+        }
+        ESP_LOGI(TAG, "Socket created, connecting to %s:%d", host_ip, PORT);
+
+        int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr_in6));
+        if (err != 0) {
+            ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
+            break;
+        }
+        ESP_LOGI(TAG, "Successfully connected");
+
+        while (1) {
+        int err = send(sock, payload, strlen(payload), 0);
+        if (err < 0) {
+            ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
+            break;
+        }
+
+        int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+        // Error occurred during receiving
+        if (len < 0) {
+            ESP_LOGE(TAG, "recv failed: errno %d", errno);
+            break;
+        }
+        // Data received
+        else {
+            rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
+            ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
+            ESP_LOGI(TAG, "%s", rx_buffer);
+            shutdown(sock, 0);
+            close(sock);
+            break;
+        }
+
+        // vTaskDelay(2000 / portTICK_PERIOD_MS);
+        }
+
+        if (sock != -1) {
+            ESP_LOGE(TAG, "Shutting down socket and restarting...");
+            shutdown(sock, 0);
+            close(sock);
+            break;
+        }
+    }
+    vTaskDelete(NULL);
+}
 
 #define EXAMPLE_READ_LEN   256
 #define GET_UNIT(x)        ((x>>3) & 0x1)
@@ -26,7 +142,7 @@
 static adc_channel_t channel[1] = {ADC_CHANNEL_7};//, ADC_CHANNEL_6}; 
 
 static TaskHandle_t s_task_handle;
-static const char *TAG = "EXAMPLE";
+static const char *waterTAG = "EXAMPLE";
 
 
 
@@ -66,24 +182,15 @@ static void continuous_adc_init(adc_channel_t *channel, uint8_t channel_num, adc
         adc_pattern[i].unit = unit;
         adc_pattern[i].bit_width = SOC_ADC_DIGI_MAX_BITWIDTH;
 
-        ESP_LOGI(TAG, "adc_pattern[%d].atten is :%x", i, adc_pattern[i].atten);
-        ESP_LOGI(TAG, "adc_pattern[%d].channel is :%x", i, adc_pattern[i].channel);
-        ESP_LOGI(TAG, "adc_pattern[%d].unit is :%x", i, adc_pattern[i].unit);
+        ESP_LOGI(waterTAG, "adc_pattern[%d].atten is :%x", i, adc_pattern[i].atten);
+        ESP_LOGI(waterTAG, "adc_pattern[%d].channel is :%x", i, adc_pattern[i].channel);
+        ESP_LOGI(waterTAG, "adc_pattern[%d].unit is :%x", i, adc_pattern[i].unit);
     }
     dig_cfg.adc_pattern = adc_pattern;
     ESP_ERROR_CHECK(adc_continuous_config(handle, &dig_cfg));
 
     *out_handle = handle;
 }
-
-//..........................................................................................
-// static void _set_angle(ledc_mode_t speed_mode, float angle)
-// {
-//     for (size_t i = 0; i < 8; i++) {
-//         iot_servo_write_angle(speed_mode, i, angle);
-//     }
-// }
-
 
 
 static char tag[] = "servo1";
@@ -144,6 +251,15 @@ void sweepServo_task(void *ignore) {
 
 void app_main(void)
 {
+    ESP_ERROR_CHECK(nvs_flash_init());
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
+     * Read "Establishing Wi-Fi or Ethernet Connection" section in
+     * examples/protocols/README.md for more information about this function.
+     */
+    ESP_ERROR_CHECK(example_connect());
     esp_err_t ret;
     uint32_t ret_num = 0;
     uint8_t result[EXAMPLE_READ_LEN] = {0};
@@ -171,8 +287,10 @@ void app_main(void)
                 for (int i = 0; i < ret_num; i += SOC_ADC_DIGI_RESULT_BYTES) {
                     adc_digi_output_data_t *p = (void*)&result[i];
                     ESP_LOGI(TAG, "Unit: %d, Channel: %d, Value: %x", 1, p->type1.channel, p->type1.data);     
-                    if (p->type1.data > 500){
+                    if (p->type1.data < 500){
+                        xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
                         xTaskCreate(&sweepServo_task,"sweepServo_task",2048,NULL,5,NULL);
+                        
                     }
    
                 }
