@@ -107,6 +107,8 @@ static void tcp_client_task(void *pvParameters)
             rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
             ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
             ESP_LOGI(TAG, "%s", rx_buffer);
+            shutdown(sock, 0);
+            close(sock);
             break;
         }
 
@@ -117,6 +119,7 @@ static void tcp_client_task(void *pvParameters)
             ESP_LOGE(TAG, "Shutting down socket and restarting...");
             shutdown(sock, 0);
             close(sock);
+            break;
         }
     }
     vTaskDelete(NULL);
