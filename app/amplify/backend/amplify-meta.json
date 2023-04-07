@@ -1,0 +1,59 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-doghousetrial-test-225250-authRole",
+      "UnauthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghousetrial-test-225250-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghousetrial-test-225250-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-doghousetrial-test-225250-deployment",
+      "UnauthRoleName": "amplify-doghousetrial-test-225250-unauthRole",
+      "StackName": "amplify-doghousetrial-test-225250",
+      "StackId": "arn:aws:cloudformation:eu-west-1:499509086187:stack/amplify-doghousetrial-test-225250/0c32ebd0-d333-11ed-bc41-02d124c2a7b3",
+      "AmplifyAppId": "d1dot0wumcs0s1"
+    }
+  },
+  "auth": {
+    "cognito81d9f49f": {
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-doghousetrial-test-225250-deployment/amplify-cfn-templates/auth/cognito81d9f49f-cloudformation-template.yml",
+        "logicalId": "authcognito81d9f49f"
+      },
+      "lastPushTimeStamp": "2023-04-04T21:56:22.510Z",
+      "output": {
+        "AppClientSecret": "7uemf0o4poqtte1qdpfb2o3g8076494h0pqmvm619mjg26t9trv",
+        "UserPoolId": "eu-west-1_rjWMiQKCt",
+        "AppClientIDWeb": "5p3n640kavcev2m58o83173tan",
+        "AppClientID": "1e42tle8gobf5fl1t3e1ht4lln",
+        "IdentityPoolId": "eu-west-1:7197b527-ca1c-4ca5-a3c4-19d845fc25ee",
+        "IdentityPoolName": "cognito81d9f49f_identitypool_81d9f49f__test",
+        "UserPoolName": "cognito81d9f49f_userpool_81d9f49f"
+      },
+      "lastPushDirHash": "G4hI9mBuwIXwAHqFfUuBbqNyOHA="
+    }
+  }
+}

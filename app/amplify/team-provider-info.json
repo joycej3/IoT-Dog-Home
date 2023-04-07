@@ -1,0 +1,56 @@
+{
+  "cpapp": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-awsamplifyreacttempl-cpapp-132902-authRole",
+      "UnauthRoleArn": "arn:aws:iam::954075284382:role/amplify-awsamplifyreacttempl-cpapp-132902-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::954075284382:role/amplify-awsamplifyreacttempl-cpapp-132902-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-awsamplifyreacttempl-cpapp-132902-deployment",
+      "UnauthRoleName": "amplify-awsamplifyreacttempl-cpapp-132902-unauthRole",
+      "StackName": "amplify-awsamplifyreacttempl-cpapp-132902",
+      "StackId": "arn:aws:cloudformation:us-east-1:954075284382:stack/amplify-awsamplifyreacttempl-cpapp-132902/d6f39000-7000-11ec-bef8-0a3d0a4ac375",
+      "AmplifyAppId": "d150kh01nxvr10"
+    },
+    "categories": {
+      "auth": {
+        "cognito81d9f49f": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-doghouse-dev-224641-authRole",
+      "UnauthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghouse-dev-224641-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghouse-dev-224641-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-doghouse-dev-224641-deployment",
+      "UnauthRoleName": "amplify-doghouse-dev-224641-unauthRole",
+      "StackName": "amplify-doghouse-dev-224641",
+      "StackId": "arn:aws:cloudformation:eu-west-1:499509086187:stack/amplify-doghouse-dev-224641/30450a90-d332-11ed-88ad-06e237679591",
+      "AmplifyAppId": "d172g5h3cdc7nh"
+    },
+    "categories": {
+      "auth": {
+        "cognito81d9f49f": {}
+      }
+    }
+  },
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-doghousetrial-test-225250-authRole",
+      "UnauthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghousetrial-test-225250-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::499509086187:role/amplify-doghousetrial-test-225250-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-doghousetrial-test-225250-deployment",
+      "UnauthRoleName": "amplify-doghousetrial-test-225250-unauthRole",
+      "StackName": "amplify-doghousetrial-test-225250",
+      "StackId": "arn:aws:cloudformation:eu-west-1:499509086187:stack/amplify-doghousetrial-test-225250/0c32ebd0-d333-11ed-bc41-02d124c2a7b3",
+      "AmplifyAppId": "d1dot0wumcs0s1"
+    },
+    "categories": {
+      "auth": {
+        "cognito81d9f49f": {}
+      }
+    }
+  }
+}
