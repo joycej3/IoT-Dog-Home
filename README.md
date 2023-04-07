@@ -54,18 +54,19 @@ The project has four parts: sensors and actuators, local communication, global c
 - AWS Cognito
 
 ## Demos
-<p align="center">
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/jVy3v2ggDWw" frameborder="0" allowfullscreen="true"></iframe>
-</figure>
-</p>
-<iframe width="693" height="1232" src="https://www.youtube.com/embed/jVy3v2ggDWw" title="The Dog House - App Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-<p align="center">
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/zU9AoqL20-M" frameborder="0" allowfullscreen="true"></iframe>
-</figure>
-</p>
-<br/>
-<br/>
 
+<video width="600" controls>
+  <source src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4" type="video/mp4">
+</video>
+<br>
+<a data-canonical-src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4" title="Download 'The Dog House - Dog Door'" rel="nofollow noreferrer noopener" href="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4" target="_blank">The Dog House - Dog Door</a>
+<br>
+<br>
+<video width="300" controls>
+  <source src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4" type="video/mp4">
+</video>
+<br>
+<a data-canonical-src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4" title="Download 'The Dog House - Dog Door'" rel="nofollow noreferrer noopener" href="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4" target="_blank">The Dog House - Web App</a>
+<br>
+<br>
 A thousand thanks for embarking on this journey to discover our project! United as a band of intrepid innovators, we've woven together a tapestry of brilliance to manifest our extraordinary dog house, harnessing the sorcery of IoT technology. May this creation ignite sparks of ingenuity in the hearts and minds of those who venture here, awakening new possibilities for IoT to enhance the symphony of daily existence. Should curiosity, inquiries, or the winds of feedback summon you, please don't hesitate to unfurl your thoughts and connect with us.
