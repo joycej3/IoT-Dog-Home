@@ -30,8 +30,8 @@ The project has four parts: sensors and actuators, local communication, global c
 - Food Bowl
 
 ### Sensors
-- NFC Sensor
-- Water Sensor
+- RFID Sensor
+- Water Level Sensor
 - Weight Sensor
 
 ### Languages Used:
