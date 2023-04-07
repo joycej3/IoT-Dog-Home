@@ -42,8 +42,8 @@ write about the idea here...
 
 ## Demos
 
-![The Dog House - Dog Door](https://gautamthapar.me/wp-content/uploads/2023/04/IoT-Final-Video-720p.mp4 "The Dog House - Dog Door"){width=50%}
+<a data-canonical-src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4" title="Download 'The Dog House - Dog Door'" rel="nofollow noreferrer noopener" href="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4" target="_blank">The Dog House - Dog Door</a>
 
-![Application Demo](https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4 "Application Demo"){width=50%}
+<a data-canonical-src="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4" title="Download 'The Dog House - Dog Door'" rel="nofollow noreferrer noopener" href="https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4" target="_blank">The Dog House - Dog Door</a>
 
 A thousand thanks for embarking on this journey to discover our project! United as a band of intrepid innovators, we've woven together a tapestry of brilliance to manifest our extraordinary dog house, harnessing the sorcery of IoT technology. May this creation ignite sparks of ingenuity in the hearts and minds of those who venture here, awakening new possibilities for IoT to enhance the symphony of daily existence. Should curiosity, inquiries, or the winds of feedback summon you, please don't hesitate to unfurl your thoughts and connect with us.
