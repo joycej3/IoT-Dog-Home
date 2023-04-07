@@ -3,8 +3,8 @@
 #include <MQTTClient.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
-#include "WiFi.h"
- 
+#include <WiFi.h>
+
 // #include "DHT.h"
 // #define DHTPIN 14     // Digital pin connected to the DHT sensor
 // #define DHTTYPE DHT11   // DHT 11
@@ -20,10 +20,11 @@ int status;
  
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(512);
- 
-void connectAWS()
-{ 
-  WiFi.mode(WIFI_STA);
+
+WiFiServer server(8080);
+
+void connectWifi() {
+  // WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
  
   Serial.println("Connecting to Wi-Fi");
@@ -33,7 +34,15 @@ void connectAWS()
     delay(500);
     Serial.print(".");
   }
+
+  Serial.print("Connected to Wi-Fi with IP: ");
+  Serial.println(WiFi.localIP());
+
+  server.begin();
+}
  
+void connectAWS()
+{ 
   // Configure WiFiClientSecure to use the AWS IoT device credentials
   net.setCACert(AWS_CERT_CA);
   net.setCertificate(AWS_CERT_CRT);
@@ -63,16 +72,64 @@ void connectAWS()
 
   // Create a message handler
   client.onMessage(messageHandler);
- 
-  
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect(THINGNAME)) {
+      Serial.println("Connected to AWS IoT Core");
+    }
+  }
 }
  
-void publishMessage()
+void publishMessage(String data)
 {
+
+  Serial.print("Publish MQTT Connection: ");
+  Serial.println(client.connected());
+
+  if (!client.connected()) {
+    reconnect();
+  }
+
   StaticJsonDocument<200> doc;
   doc["status"] = 0;
   char jsonBuffer[512];
   serializeJson(doc, jsonBuffer); // print to client
+ 
+  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+}
+
+void publishJsonMessage(String json_data)
+{
+
+  Serial.print("Publish MQTT Connection: ");
+  Serial.println(client.connected());
+
+  if (!client.connected()) {
+    reconnect();
+  }
+
+  // Parse the received JSON data
+  StaticJsonDocument<200> receivedDoc;
+  DeserializationError error = deserializeJson(receivedDoc, json_data);
+  
+  if (error) {
+    Serial.print("Error parsing received JSON: ");
+    Serial.println(error.c_str());
+    return;
+  }
+  
+  // Extract the temperature and humidity from the received JSON data
+  int door = receivedDoc["door"];
+
+  // Create a new JSON document to send to AWS IoT Core
+  StaticJsonDocument<200> publishDoc;
+  publishDoc["door"] = door;
+  
+  char jsonBuffer[512];
+  serializeJson(publishDoc, jsonBuffer); // print to client
  
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
@@ -84,48 +141,42 @@ void messageHandler(String &topic, String &payload)
  
   StaticJsonDocument<200> doc;
   deserializeJson(doc, payload);
-  const int message = doc["status"];
-  Serial.println("status: ");
+  const int message = doc["door"];
+  Serial.print("door: ");
   Serial.println(message);
 }
 
 void setup()
 {
   Serial.begin(115200);
+  connectWifi();
   connectAWS();
-  // dht.begin();
 }
  
 void loop()
 {
-  // h = dht.readHumidity();
-  // t = dht.readTemperature();
-  status = 0;
-
-  if (isnan(status)) {
-    Serial.println(F("Failed to read status!"));
-    return;
-  }
-
-  Serial.print(F("Status: "));
-  Serial.println(status);
- 
-  // if (isnan(h) || isnan(t) )  // Check if any reads failed and exit early (to try again).
-  // {
-  //   Serial.println(F("Failed to read from DHT sensor!"));
-  //   return;
-  // }
- 
-  // Serial.print(F("Humidity: "));
-  // Serial.print(h);
-  // Serial.print(F("%  Temperature: "));
-  // Serial.print(t);
-  // Serial.println(F("°C "));
-
   // sends and receives packets 
   client.loop();
- 
-  publishMessage();
-  
-  delay(1000);
+
+  WiFiClient wclient = server.available();
+  if (wclient) {
+    Serial.println("Client connected");
+    while (wclient.connected()) {
+      if (wclient.available()) {
+        String data = wclient.readStringUntil('\n');
+        Serial.print("Received data: ");
+        Serial.println(data);
+      
+        publishMessage(data);
+
+        wclient.stop(); // Stop the client after receiving data
+        Serial.println("Client disconnected");
+        break; // Exit the inner loop
+      }
+    }
+  }
+  // Maintain the MQTT connection when there's no active client connection
+  else {
+    client.loop();
+  }
 }
