@@ -1,4 +1,4 @@
-# aws-amplify-react-iot-pub-sub-using-cp
+# The Dog House - App
 
 ## Overview
 
@@ -178,3 +178,7 @@ It will have a name similar to `arn:aws:iam::123456790:role/amplify-awsamplifyre
   ```
 
 5. Navigate to `localhost:3000`, sign up, and test!
+
+
+Credits
+https://github.com/aws-samples/aws-amplify-react-iot-pub-sub-using-cp

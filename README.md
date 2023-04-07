@@ -1,38 +1,58 @@
-Door component
-    Send - Door open / close
-    Receieve - Lock / unlock
+# The Dog House
 
-Feeder Component
-    Send - Change in weight / water
-    Reveice - Daily feed amount
+## Introduction
+This is the official GitLab repository for Group 13, a team of tech enthusiasts and innovators who love to explore the frontiers of software development, programming and Internet of Things. This repository showcases our group project and code snippets, demonstrating our expertise and creativity in the field of technology.
 
+This project is for the module “CS7NS2 - Internet of Things” at Trinity College Dublin. For this project, we’ve used advanced hardware devices, such as the powerful ESP32 and ESP32-S2-Kaluga, the sensitive water sensor, the fun tilt sensor, weight sensor and the NFC sensor. We’ve also leveraged the capabilities of AWS IoT Core and ReactJs for our application.
 
+Our team of software engineers has smartly integrated these components to create an innovative IoT solution that offers a smooth and user-friendly experience that feels like a harmony of technology. We’re passionate about our code quality and committed to delivering the best solutions to our clients and users.
 
-Camera
-    - Send Anomally
+## The IDEA
+write about the idea here...
 
+### Main Components
+- Smart Collar
+- Dog Door
+- Water Bowl
+- Food Bowl
 
+### Sensors
+- NFC Sensor
+- Water Sensor
+- Weight Sensor
 
+### Languages Used:
+- ESP-IDF
+- C++
+- JavaScript (ReactJs)
 
-## Getting started
-Install the Espressif IDF extension (Could take a while)
-To build the hello world program
-    -ctrl + shift + p
-    -Open ESP-idf terminal
-    -cd into correct folder
-    -type "esp.py build" into terminal
-    -to flash type: "idf.py flash"
-    
+### Libraries & SDKs Used:
+- AWS IoT Device SDK
+- MQTT Client
+- PubSub Client
 
-## Add your files
+### IDEs involved: 
+- VSCode
+- Arduino IDE
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Cloud Resources Used:
+- AWS IoT Core
+- AWS Amplify
+- AWS Cognito
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/joycej3/iot-project.git
-git branch -M main
-git push -uf origin main
-```
+## Demos
+<p align="center">
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/jVy3v2ggDWw" frameborder="0" allowfullscreen="true"></iframe>
+</figure>
+</p>
+<iframe width="693" height="1232" src="https://www.youtube.com/embed/jVy3v2ggDWw" title="The Dog House - App Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<p align="center">
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/zU9AoqL20-M" frameborder="0" allowfullscreen="true"></iframe>
+</figure>
+</p>
+<br/>
+<br/>
 
+A thousand thanks for embarking on this journey to discover our project! United as a band of intrepid innovators, we've woven together a tapestry of brilliance to manifest our extraordinary dog house, harnessing the sorcery of IoT technology. May this creation ignite sparks of ingenuity in the hearts and minds of those who venture here, awakening new possibilities for IoT to enhance the symphony of daily existence. Should curiosity, inquiries, or the winds of feedback summon you, please don't hesitate to unfurl your thoughts and connect with us.
