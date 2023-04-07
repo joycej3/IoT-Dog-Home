@@ -17,8 +17,8 @@ write about the idea here...
 - Food Bowl
 
 ### Sensors
-- NFC Sensor
-- Water Sensor
+- RFID Sensor
+- Water Level Sensor
 - Weight Sensor
 
 ### Languages Used:
