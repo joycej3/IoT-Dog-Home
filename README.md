@@ -42,6 +42,8 @@ write about the idea here...
 
 ## Demos
 
-![Sample Video](https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4)
+![The Dog House - Dog Door](https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Dog-Door.mp4){width=50%}
+
+![Application Demo](https://gautamthapar.me/wp-content/uploads/2023/04/The-Dog-House-Web-App.mp4){width=50%}
 
 A thousand thanks for embarking on this journey to discover our project! United as a band of intrepid innovators, we've woven together a tapestry of brilliance to manifest our extraordinary dog house, harnessing the sorcery of IoT technology. May this creation ignite sparks of ingenuity in the hearts and minds of those who venture here, awakening new possibilities for IoT to enhance the symphony of daily existence. Should curiosity, inquiries, or the winds of feedback summon you, please don't hesitate to unfurl your thoughts and connect with us.
